@@ -76,6 +76,33 @@ input::placeholder {
     color:#070707;
 }
 
+#logging {
+    font-size: 22px;
+}
+
+#log {
+    display: none;
+}
+
+#restMessage {
+    display:none;
+}
+
+#stop {
+    display: none;
+}
+
+.tracker {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+
+.tracker > button {
+    margin-top: 10px;
+}
 @media only screen and (min-width: 1024px) {
     .time-tracker-root {
         min-width: 500px;
