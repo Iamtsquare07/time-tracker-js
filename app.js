@@ -1,14 +1,17 @@
 let startTime;
 let intervalId;
+let restIntervalId;
 let logged = false;
 const logField = document.getElementById("log");
 const logList = document.getElementById("logList");
 const task = document.getElementById("taskName");
 const restMessage = document.getElementById("restMessage");
-const logging = document.getElementById('logging')
-const stop = document.getElementById('stop');
-let restCounter = 30 * 60; // 30 minutes in seconds
-let restInterval = 10 * 60; // 10 minutes in seconds
+const logging = document.getElementById("logging");
+const stop = document.getElementById("stop");
+let restCounter = 20000 * 60;
+let restInterval = 20000 * 60;
+let ten = 10000 * 60;
+let twenty = 20000 * 60;
 
 function startTracking() {
   const taskName = task.value;
@@ -20,13 +23,10 @@ function startTracking() {
 
   startTime = Date.now();
   intervalId = setInterval(updateTimer, 1000);
-
-  // Display the initial rest message
-  updateRestMessage();
-
-  // Start the rest timer
-  startRestTimer();
-  stop.style.display = 'block';
+  restIntervalId = setInterval(startRestTimer, ten);
+  restMessage.style.display = "block";
+  restMessage.innerText = `Break time in 30 minutes`;
+  stop.style.display = "block";
 }
 
 task.addEventListener("keypress", (event) => {
@@ -42,6 +42,7 @@ function stopTracking() {
   }
 
   clearInterval(intervalId);
+  clearInterval(restIntervalId);
   const endTime = Date.now();
   const elapsedTime = (endTime - startTime) / 1000; // in seconds
   const taskName = document.getElementById("taskName").value;
@@ -54,9 +55,10 @@ function stopTracking() {
   startTime = null;
   document.getElementById("taskName").value = "";
 
-  displayTimeLog()
+  displayTimeLog();
   logging.style.visibility = "hidden";
-  stop.style.display = 'none';
+  stop.style.display = "none";
+  restMessage.style.display = "none";
 }
 
 function updateTimer() {
@@ -69,7 +71,9 @@ function updateTimer() {
   const formattedTime = `${hours} hours, ${minutes} minutes, ${seconds.toFixed(
     0
   )} seconds`;
-  logging.innerHTML = capitalizeFirstLetter(`Now tracking ${task.value}: ${formattedTime}`);
+  logging.innerHTML = capitalizeFirstLetter(
+    `Now tracking ${task.value}: ${formattedTime}`
+  );
 }
 
 function displayTimeLog() {
@@ -83,7 +87,9 @@ function displayTimeLog() {
 
   timeLog.forEach((entry, index) => {
     const listItem = document.createElement("li");
-    listItem.innerText = capitalizeFirstLetter(`Task: ${entry.taskName}, Time spent: ${formatTime(entry.elapsedTime)}`);
+    listItem.innerText = capitalizeFirstLetter(
+      `Task: ${entry.taskName}, Time spent: ${formatTime(entry.elapsedTime)}`
+    );
     logList.appendChild(listItem);
   });
 
@@ -105,7 +111,6 @@ function formatTime(timeInSeconds) {
   }
 }
 
-
 function clearLogs() {
   if (!logged) {
     alert("No logs to clear");
@@ -117,18 +122,28 @@ function clearLogs() {
 }
 
 function startRestTimer() {
-  setInterval(() => {
-    if (restCounter === 0) {
-      restMessage.style.display = "block";
-      restMessage.textContent = "Time to Rest!";
-      restCounter = 30 * 60;
-      return;
-    } else if (restCounter <= restInterval) {
-      restMessage.style.display = "block";
-      restMessage.innerText = `Rest in ${restCounter / 60} minutes`;
-    }
-    restCounter--;
-  }, 1000);
+  if (restCounter === 0) {
+    restMessage.style.display = "block";
+    restMessage.textContent = "Time to rest. Please take a 5 minutes break";
+    clearInterval(restIntervalId);
+    setTimeout(() => {
+      restMessage.textContent = "Resting time remain 2 minutes";
+    }, 3000 * 60);
+
+    setTimeout(() => {
+      restMessage.textContent = "Your are now refreshed.";
+    }, 4000 * 60);
+
+    setTimeout(() => {
+      restIntervalId = setInterval(startRestTimer, ten);
+    }, 5000 * 60);
+    return;
+  } else if (restCounter === ten) {
+    restMessage.innerText = `Break time is in 10 minutes`;
+  } else if (restCounter === twenty) {
+    restMessage.innerText = `Break time is in 20 minutes`;
+  }
+  restCounter -= ten;
 }
 
 function updateRestMessage() {
@@ -138,7 +153,7 @@ function updateRestMessage() {
     restCounter = 30 * 60;
   } else if (restCounter <= restInterval) {
     restMessage.style.display = "block";
-    restMessage.innerText = `Rest in ${restCounter / 60} minutes`;
+    restMessage.innerText = `Rest in ${restTime.toFixed(2)} minutes`;
   }
 }
 
