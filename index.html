@@ -16,13 +16,20 @@
         <div class="container">
             <input type="text" id="taskName" placeholder="Enter task name"><br>
             <button onclick="startTracking()">Start</button>
-            <button onclick="stopTracking()">Stop</button>
         </div>
-
+        <div class="tracker">
+            <div id="logging"></div>
+            <button id="stop" onclick="stopTracking()">Stop</button>
+        </div>
         <div id="log">
             <h2>Time Log</h2>
             <ul id="logList"></ul>
+            <p id="clear">
+                <button onclick="clearLogs()">Clear Logs</button>
+            </p>
         </div>
+
+        <div id="restMessage"></div>
     </div>
 
     <script src="./app.js"></script>
