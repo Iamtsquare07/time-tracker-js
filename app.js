@@ -27,6 +27,8 @@ function startTracking() {
   restMessage.style.display = "block";
   restMessage.innerText = `Break time in 30 minutes`;
   stop.style.display = "block";
+
+  addBeforeUnloadWarning()
 }
 
 task.addEventListener("keypress", (event) => {
@@ -59,6 +61,8 @@ function stopTracking() {
   logging.style.visibility = "hidden";
   stop.style.display = "none";
   restMessage.style.display = "none";
+
+  removeBeforeUnloadWarning()
 }
 
 function updateTimer() {
@@ -121,6 +125,7 @@ function clearLogs() {
   logField.style.display = "none";
 }
 
+
 function startRestTimer() {
   if (restCounter === 0) {
     restMessage.style.display = "block";
@@ -170,4 +175,20 @@ function capitalizeFirstLetter(text) {
 
   // Join the capitalized words back together
   return capitalizedWords.join(" ");
+}
+
+
+function addBeforeUnloadWarning() {
+    // Add the beforeunload event listener
+    window.addEventListener('beforeunload', beforeUnloadHandler);
+}
+
+function removeBeforeUnloadWarning() {
+    // Remove the beforeunload event listener
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+}
+
+function beforeUnloadHandler(e) {
+    e.preventDefault();
+    e.returnValue = 'You have unsaved changes. Are you sure you want to leave this page?';
 }
