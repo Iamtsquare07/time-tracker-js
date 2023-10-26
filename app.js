@@ -62,7 +62,7 @@ function stopTracking() {
   stop.style.display = "none";
   restMessage.style.display = "none";
 
-  removeBeforeUnloadWarning()
+  removeBeforeUnloadWarning();
 }
 
 function updateTimer() {
@@ -91,8 +91,8 @@ function displayTimeLog() {
 
   timeLog.forEach((entry, index) => {
     const listItem = document.createElement("li");
-    listItem.innerText = capitalizeFirstLetter(
-      `Task: ${entry.taskName}, Time spent: ${formatTime(entry.elapsedTime)}`
+    listItem.innerHTML = capitalizeFirstLetter(
+      `<span class="task">Task:</span> ${entry.taskName}, <span class="task">Time spent:</span> ${formatTime(entry.elapsedTime)}`
     );
     logList.appendChild(listItem);
   });
