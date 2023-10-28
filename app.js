@@ -22,7 +22,7 @@ function startTracking() {
   }
 
   startTime = Date.now();
-  intervalId = setInterval(updateTimer, 1000);
+  intervalId = setInterval(updateTimer, 1000); // Update the timer every second
   restIntervalId = setInterval(startRestTimer, ten);
   restMessage.style.display = "block";
   restMessage.innerText = `Break time in 30 minutes`;
