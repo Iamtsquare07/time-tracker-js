@@ -55,7 +55,7 @@ function stopTracking() {
   localStorage.setItem("timeLog", JSON.stringify(timeLog));
 
   startTime = null;
-  document.getElementById("taskName").value = "";
+  document.getElementById("taskName").value = " ";
 
   displayTimeLog();
   logging.style.visibility = "hidden";
@@ -117,7 +117,7 @@ function formatTime(timeInSeconds) {
 
 function clearLogs() {
   if (!logged) {
-    alert("No logs to clear");
+    alert("No logs to clear. Track some activities first");
     return;
   }
   logList.innerHTML = "";
