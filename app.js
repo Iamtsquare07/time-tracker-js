@@ -117,7 +117,7 @@ function formatTime(timeInSeconds) {
 
 function clearLogs() {
   if (!logged) {
-    alert("No logs to clear. Track some activities first");
+    alert("No logs to clear. Use the start button to track your activities");
     return;
   }
   logList.innerHTML = "";
