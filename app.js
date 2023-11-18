@@ -2,6 +2,7 @@ let startTime;
 let intervalId;
 let restIntervalId;
 let logged = false;
+let isRunning = false;
 const logField = document.getElementById("log");
 const logList = document.getElementById("logList");
 const task = document.getElementById("taskName");
@@ -14,6 +15,13 @@ let ten = 10000 * 60;
 let twenty = 20000 * 60;
 
 function startTracking() {
+  if (!isRunning) {
+    isRunning = true;
+  } else {
+    alert("Your current task is still running");
+    return;
+  }
+
   const taskName = task.value;
   logging.style.visibility = "visible";
   if (!taskName) {
@@ -22,13 +30,13 @@ function startTracking() {
   }
 
   startTime = Date.now();
-  intervalId = setInterval(updateTimer, 1000); // Update the timer every second
+  intervalId = setInterval(updateTimer, 1000);
   restIntervalId = setInterval(startRestTimer, ten);
   restMessage.style.display = "block";
   restMessage.innerText = `Break time in 30 minutes`;
   stop.style.display = "block";
 
-  addBeforeUnloadWarning()
+  addBeforeUnloadWarning();
 }
 
 task.addEventListener("keypress", (event) => {
@@ -55,13 +63,13 @@ function stopTracking() {
   localStorage.setItem("timeLog", JSON.stringify(timeLog));
 
   startTime = null;
-  document.getElementById("taskName").value = " ";
+  document.getElementById("taskName").value = "";
 
   displayTimeLog();
   logging.style.visibility = "hidden";
   stop.style.display = "none";
   restMessage.style.display = "none";
-
+  isRunning = false;
   removeBeforeUnloadWarning();
 }
 
@@ -92,7 +100,9 @@ function displayTimeLog() {
   timeLog.forEach((entry, index) => {
     const listItem = document.createElement("li");
     listItem.innerHTML = capitalizeFirstLetter(
-      `<span class="task">Task:</span> ${entry.taskName}, <span class="task">Time spent:</span> ${formatTime(entry.elapsedTime)}`
+      `<span class="task">Task:</span> ${
+        entry.taskName
+      }, <span class="task">Time spent:</span> ${formatTime(entry.elapsedTime)}`
     );
     logList.appendChild(listItem);
   });
@@ -117,14 +127,13 @@ function formatTime(timeInSeconds) {
 
 function clearLogs() {
   if (!logged) {
-    alert("No logs to clear. Use the start button to track your activities");
+    alert("No logs to clear");
     return;
   }
   logList.innerHTML = "";
   localStorage.removeItem("timeLog");
   logField.style.display = "none";
 }
-
 
 function startRestTimer() {
   if (restCounter === 0) {
@@ -177,18 +186,18 @@ function capitalizeFirstLetter(text) {
   return capitalizedWords.join(" ");
 }
 
-
 function addBeforeUnloadWarning() {
-    // Add the beforeunload event listener
-    window.addEventListener('beforeunload', beforeUnloadHandler);
+  // Add the beforeunload event listener
+  window.addEventListener("beforeunload", beforeUnloadHandler);
 }
 
 function removeBeforeUnloadWarning() {
-    // Remove the beforeunload event listener
-    window.removeEventListener('beforeunload', beforeUnloadHandler);
+  // Remove the beforeunload event listener
+  window.removeEventListener("beforeunload", beforeUnloadHandler);
 }
 
 function beforeUnloadHandler(e) {
-    e.preventDefault();
-    e.returnValue = 'You have unsaved changes. Are you sure you want to leave this page?';
+  e.preventDefault();
+  e.returnValue =
+    "You have unsaved changes. Are you sure you want to leave this page?";
 }
