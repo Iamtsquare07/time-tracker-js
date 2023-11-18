@@ -25,7 +25,7 @@ h1 {
 }
 
 h4 {
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .time-tracker-root {
@@ -47,7 +47,7 @@ h4 {
 
 .task {
     font-weight: 500;
-    color:#03C988;
+    color: #03C988;
 }
 
 #logList {
