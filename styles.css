@@ -24,6 +24,10 @@ h1 {
     font-size: 5vw;
 }
 
+h4 {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .time-tracker-root {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: whitesmoke;
@@ -44,6 +48,10 @@ h1 {
 .task {
     font-weight: 500;
     color:#03C988;
+}
+
+#logList {
+    padding: 10px;
 }
 
 button {
@@ -120,5 +128,9 @@ input::placeholder {
 
     input[type="text"] {
         width: 300px;
+    }
+
+    #logList {
+        padding: 30px;
     }
 }
