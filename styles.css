@@ -92,6 +92,12 @@ input::placeholder {
     font-size: 22px;
 }
 
+.log-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #log {
     display: none;
 }
@@ -114,6 +120,30 @@ input::placeholder {
 
 .tracker>button {
     margin-top: 10px;
+}
+
+table {
+    border-radius: 10px;
+    box-shadow: .5px 1px 5px 1px #1b37b4;
+    font-size: 14px;
+}
+
+thead {
+    box-shadow: .3px .6px .9px .6px #1b37b4;
+    text-align: left;
+    border-radius: 10px 10px 0 0;
+}
+
+tbody {
+    padding: 10px;
+}
+
+td {
+    padding-right: 10px;
+}
+
+#clear {
+    text-align: center;
 }
 
 @media only screen and (min-width: 1024px) {
