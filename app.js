@@ -1,6 +1,7 @@
 let startTime;
 let intervalId;
 let restIntervalId;
+let autoIntervalId;
 let logged = false;
 let isRunning = false;
 const logField = document.getElementById("log");
@@ -9,11 +10,14 @@ const task = document.getElementById("taskName");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
 const stop = document.getElementById("stop");
+const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
 let taskInput;
 let restCounter = 20000 * 60;
 let restInterval = 20000 * 60;
 let ten = 10000 * 60;
 let twenty = 20000 * 60;
+const autoSaveData = [];
+const AUTO_SAVE_TIMER = 30000;
 
 function startTracking() {
   if (!isRunning) {
@@ -38,8 +42,45 @@ function startTracking() {
   restMessage.innerText = `Break time in 30 minutes`;
   stop.style.display = "block";
   task.value = "";
+  addAutoSave()
   addBeforeUnloadWarning();
 }
+
+function addAutoSave() {
+  // Set up an interval to periodically save the state
+  autoIntervalId = setInterval(() => {
+    if (isRunning) {
+      const currentTime = Date.now();
+      const elapsedMilliseconds = currentTime - startTime;
+      const elapsedTime = elapsedMilliseconds / 1000; // in seconds
+      const taskName = taskInput;
+
+      // Push the data to the temporary array
+      autoSaveData.push({ taskName, elapsedTime });
+
+      // Save the most recent entry to localStorage
+      localStorage.setItem(
+        "lastAutoSave",
+        JSON.stringify({ taskName, elapsedTime })
+      );
+        // Clear the temporary array for the next round of auto-saving
+        autoSaveData.length = 0;
+    }
+  }, AUTO_SAVE_TIMER);
+}
+
+// Retrieve the most recent entry from localStorage
+const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
+console.log(lastAutoSave);
+if (lastAutoSave) {
+  // Save the most recent entry to the main array
+  timeLog.push(lastAutoSave);
+  localStorage.setItem("timeLog", JSON.stringify(timeLog));
+
+  // Clear the localStorage entry for the next round
+  localStorage.removeItem("lastAutoSave");
+}
+
 
 task.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
@@ -60,7 +101,6 @@ function stopTracking() {
   const taskName = taskInput;
 
   // Save the task in localStorage
-  const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
   timeLog.push({ taskName, elapsedTime });
   localStorage.setItem("timeLog", JSON.stringify(timeLog));
 
@@ -71,6 +111,7 @@ function stopTracking() {
   restMessage.style.display = "none";
   isRunning = false;
   removeBeforeUnloadWarning();
+  clearInterval(autoIntervalId)
 }
 
 function updateTimer() {
@@ -91,7 +132,6 @@ function updateTimer() {
 function displayTimeLog() {
   const logTable = document.getElementById("logList");
   logged = true;
-  const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
 
   // Clear existing rows
   logTable.innerHTML = "";
@@ -155,7 +195,6 @@ function startRestTimer() {
     setTimeout(() => {
       restIntervalId = setInterval(startRestTimer, ten);
       restMessage.innerText = `Break time in 30 minutes`;
-
     }, 5000 * 60);
     return;
   } else if (restCounter === ten) {
