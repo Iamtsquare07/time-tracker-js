@@ -84,7 +84,7 @@ function updateTimer() {
     0
   )} seconds`;
   logging.innerHTML = capitalizeFirstLetter(
-    `Now tracking ${taskInput}: ${formattedTime}`
+    `Now tracking “${taskInput}”: ${formattedTime}`
   );
 }
 
@@ -154,6 +154,8 @@ function startRestTimer() {
 
     setTimeout(() => {
       restIntervalId = setInterval(startRestTimer, ten);
+      restMessage.innerText = `Break time in 30 minutes`;
+
     }, 5000 * 60);
     return;
   } else if (restCounter === ten) {
