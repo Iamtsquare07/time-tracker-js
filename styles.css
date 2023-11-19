@@ -45,10 +45,6 @@ h4 {
     text-align: center;
 }
 
-.task {
-    font-weight: 500;
-    color: #03C988;
-}
 
 #logList {
     padding: 10px;
@@ -94,7 +90,7 @@ input::placeholder {
 
 .log-container {
     display: flex;
-    align-items: center;
+    align-items:center;
     justify-content: center;
 }
 
@@ -126,6 +122,7 @@ table {
     border-radius: 10px;
     box-shadow: .5px 1px 5px 1px #1b37b4;
     font-size: 14px;
+    padding: 3px;
 }
 
 thead {
@@ -134,12 +131,8 @@ thead {
     border-radius: 10px 10px 0 0;
 }
 
-tbody {
-    padding: 10px;
-}
-
 td {
-    padding-right: 10px;
+    padding-right: 5px;
 }
 
 #clear {
@@ -163,4 +156,9 @@ td {
     #logList {
         padding: 30px;
     }
+
+    table {
+        font-size: 18px;
+    }
+    
 }
