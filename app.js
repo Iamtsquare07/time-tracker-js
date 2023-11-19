@@ -9,6 +9,7 @@ const task = document.getElementById("taskName");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
 const stop = document.getElementById("stop");
+let taskInput;
 let restCounter = 20000 * 60;
 let restInterval = 20000 * 60;
 let ten = 10000 * 60;
@@ -22,7 +23,8 @@ function startTracking() {
     return;
   }
 
-  const taskName = task.value;
+  taskInput = task.value;
+  const taskName = taskInput;
   logging.style.visibility = "visible";
   if (!taskName) {
     alert("Please enter a task name.");
@@ -35,7 +37,7 @@ function startTracking() {
   restMessage.style.display = "block";
   restMessage.innerText = `Break time in 30 minutes`;
   stop.style.display = "block";
-
+  task.value = "";
   addBeforeUnloadWarning();
 }
 
@@ -55,7 +57,7 @@ function stopTracking() {
   clearInterval(restIntervalId);
   const endTime = Date.now();
   const elapsedTime = (endTime - startTime) / 1000; // in seconds
-  const taskName = document.getElementById("taskName").value;
+  const taskName = taskInput;
 
   // Save the task in localStorage
   const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
@@ -63,8 +65,6 @@ function stopTracking() {
   localStorage.setItem("timeLog", JSON.stringify(timeLog));
 
   startTime = null;
-  document.getElementById("taskName").value = "";
-
   displayTimeLog();
   logging.style.visibility = "hidden";
   stop.style.display = "none";
@@ -84,31 +84,35 @@ function updateTimer() {
     0
   )} seconds`;
   logging.innerHTML = capitalizeFirstLetter(
-    `Now tracking ${task.value}: ${formattedTime}`
+    `Now tracking ${taskInput}: ${formattedTime}`
   );
 }
 
 function displayTimeLog() {
-  logList.innerHTML = "";
+  const logTable = document.getElementById("logList");
   logged = true;
   const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
+
+  // Clear existing rows
+  logTable.innerHTML = "";
 
   if (!timeLog.length) {
     return;
   }
 
   timeLog.forEach((entry, index) => {
-    const listItem = document.createElement("li");
-    listItem.innerHTML = capitalizeFirstLetter(
-      `<span class="task">Task:</span> ${
-        entry.taskName
-      }, <span class="task">Time spent:</span> ${formatTime(entry.elapsedTime)}`
-    );
-    logList.appendChild(listItem);
+    const row = logTable.insertRow(index);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+
+    cell1.innerHTML = capitalizeFirstLetter(entry.taskName);
+    cell2.innerHTML = formatTime(entry.elapsedTime);
   });
 
   logField.style.display = "block";
 }
+
+displayTimeLog();
 
 function formatTime(timeInSeconds) {
   if (timeInSeconds >= 3600) {
@@ -170,8 +174,6 @@ function updateRestMessage() {
     restMessage.innerText = `Rest in ${restTime.toFixed(2)} minutes`;
   }
 }
-
-displayTimeLog();
 
 function capitalizeFirstLetter(text) {
   // Split the string into words
