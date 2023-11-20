@@ -42,7 +42,7 @@ function startTracking() {
   restMessage.innerText = `Break time in 30 minutes`;
   stop.style.display = "block";
   task.value = "";
-  addAutoSave()
+  addAutoSave();
   addBeforeUnloadWarning();
 }
 
@@ -63,8 +63,8 @@ function addAutoSave() {
         "lastAutoSave",
         JSON.stringify({ taskName, elapsedTime })
       );
-        // Clear the temporary array for the next round of auto-saving
-        autoSaveData.length = 0;
+      // Clear the temporary array for the next round of auto-saving
+      autoSaveData.length = 0;
     }
   }, AUTO_SAVE_TIMER);
 }
@@ -80,7 +80,6 @@ if (lastAutoSave) {
   // Clear the localStorage entry for the next round
   localStorage.removeItem("lastAutoSave");
 }
-
 
 task.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
@@ -111,7 +110,7 @@ function stopTracking() {
   restMessage.style.display = "none";
   isRunning = false;
   removeBeforeUnloadWarning();
-  clearInterval(autoIntervalId)
+  clearInterval(autoIntervalId);
 }
 
 function updateTimer() {
@@ -120,10 +119,25 @@ function updateTimer() {
   const hours = Math.floor(elapsedMilliseconds / 3600000);
   const minutes = Math.floor((elapsedMilliseconds % 3600000) / 60000);
   const seconds = ((elapsedMilliseconds % 3600000) % 60000) / 1000;
+  let formattedTime;
+  if (hours <= 1 && minutes <= 1) {
+    formattedTime = `${hours} hour, ${minutes} minute, ${seconds.toFixed(
+      0
+    )} seconds`;
+  } else if (minutes <= 1) {
+    formattedTime = `${hours} hours, ${minutes} minute, ${seconds.toFixed(
+      0
+    )} seconds`;
+  } else if (hours <= 1) {
+    formattedTime = `${hours} hour, ${minutes} minutes, ${seconds.toFixed(
+      0
+    )} seconds`;
+  } else {
+    formattedTime = `${hours} hours, ${minutes} minutes, ${seconds.toFixed(
+      0
+    )} seconds`;
+  }
 
-  const formattedTime = `${hours} hours, ${minutes} minutes, ${seconds.toFixed(
-    0
-  )} seconds`;
   logging.innerHTML = capitalizeFirstLetter(
     `Now tracking <span class="taskId">“${taskInput}”</span>: ${formattedTime}`
   );
@@ -159,11 +173,23 @@ function formatTime(timeInSeconds) {
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = Math.floor(timeInSeconds % 60);
-    return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    if (hours <= 1 && minutes <= 1) {
+      return `${hours} hour, ${minutes} minute, ${seconds} seconds`;
+    } else if (minutes <= 1) {
+      return `${hours} hours, ${minutes} minute, ${seconds} seconds`;
+    } else if (hours <= 1) {
+      return `${hours} hour, ${minutes} minutes, ${seconds} seconds`;
+    } else {
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
   } else if (timeInSeconds >= 60) {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
-    return `${minutes} minutes, ${seconds} seconds`;
+    if (minutes <= 1) {
+      return `${minutes} minute, ${seconds} seconds`;
+    } else {
+      return `${minutes} minutes, ${seconds} seconds`;
+    }
   } else {
     return `${timeInSeconds} seconds`;
   }
