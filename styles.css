@@ -67,7 +67,7 @@ button:hover {
 }
 
 input[type="text"] {
-    padding: 5px;
+    padding: 5px 10px;
     background-color: #9a9aff;
     border-radius: 15px;
     border: 1px solid #9a9aff;
@@ -137,6 +137,10 @@ td {
 
 #clear {
     text-align: center;
+}
+
+.taskId {
+    font-weight: 500;
 }
 
 @media only screen and (min-width: 1024px) {
