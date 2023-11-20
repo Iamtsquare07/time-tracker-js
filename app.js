@@ -125,7 +125,7 @@ function updateTimer() {
     0
   )} seconds`;
   logging.innerHTML = capitalizeFirstLetter(
-    `Now tracking “${taskInput}”: ${formattedTime}`
+    `Now tracking <span class="taskId">“${taskInput}”</span>: ${formattedTime}`
   );
 }
 
