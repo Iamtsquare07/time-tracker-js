@@ -131,6 +131,10 @@ thead {
     border-radius: 10px 10px 0 0;
 }
 
+th {
+    padding: 5px 3px;
+}
+
 td {
     padding-right: 5px;
 }
