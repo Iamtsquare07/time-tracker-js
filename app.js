@@ -204,7 +204,11 @@ function clearLogs() {
     return;
   }
   logList.innerHTML = "";
+  timeLog.length = 0;
   localStorage.removeItem("timeLog");
+  if (lastAutoSave) {
+    localStorage.removeItem("lastAutoSave");
+  }
   logField.style.display = "none";
 }
 
