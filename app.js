@@ -35,13 +35,13 @@ function startTracking() {
     return;
   }
 
+  task.value = "";
   startTime = Date.now();
   intervalId = setInterval(updateTimer, 1000);
   restIntervalId = setInterval(startRestTimer, ten);
   restMessage.style.display = "block";
   restMessage.innerText = `Break time in 30 minutes`;
   stop.style.display = "block";
-  task.value = "";
   addAutoSave();
   addBeforeUnloadWarning();
 }
@@ -112,6 +112,7 @@ function stopTracking() {
   if (lastAutoSave) {
     localStorage.removeItem("lastAutoSave");
   }
+  taskInput = "";
   removeBeforeUnloadWarning();
   clearInterval(autoIntervalId);
 }
@@ -141,9 +142,11 @@ function updateTimer() {
     )} seconds`;
   }
 
-  logging.innerHTML = capitalizeFirstLetter(
-    `Now tracking <span class="taskId">“${taskInput}”</span>: ${formattedTime}`
-  );
+  setTimeout(() => {
+    logging.innerHTML = capitalizeFirstLetter(
+      `Now tracking <span class="taskId">“${taskInput}”</span>: ${formattedTime}`
+    );
+  }, 1000);
 }
 
 function displayTimeLog() {
