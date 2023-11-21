@@ -109,6 +109,9 @@ function stopTracking() {
   stop.style.display = "none";
   restMessage.style.display = "none";
   isRunning = false;
+  if (lastAutoSave) {
+    localStorage.removeItem("lastAutoSave");
+  }
   removeBeforeUnloadWarning();
   clearInterval(autoIntervalId);
 }
