@@ -71,15 +71,23 @@ function addAutoSave() {
 
 // Retrieve the most recent entry from localStorage
 const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
-console.log(lastAutoSave);
+
 if (lastAutoSave) {
-  // Save the most recent entry to the main array
-  timeLog.push(lastAutoSave);
-  localStorage.setItem("timeLog", JSON.stringify(timeLog));
+  // Check if the entry already exists in timeLog
+  const existingEntryIndex = timeLog.findIndex(
+    (entry) => entry.taskName === lastAutoSave.taskName
+  );
+
+  if (existingEntryIndex === -1) {
+    // If the entry doesn't exist, push it to timeLog
+    timeLog.push(lastAutoSave);
+    localStorage.setItem("timeLog", JSON.stringify(timeLog));
+  }
 
   // Clear the localStorage entry for the next round
   localStorage.removeItem("lastAutoSave");
 }
+
 
 task.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
