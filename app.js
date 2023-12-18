@@ -12,10 +12,10 @@ const logging = document.getElementById("logging");
 const stop = document.getElementById("stop");
 const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
 let taskInput;
-let restCounter = 20000 * 60;
+let restCounter = 30000 * 60;
 let restInterval = 20000 * 60;
 let ten = 10000 * 60;
-let twenty = 20000 * 60;
+let twenty = 30000 * 60;
 const autoSaveData = [];
 const AUTO_SAVE_TIMER = 30000;
 
@@ -225,6 +225,7 @@ function clearLogs() {
 
 function startRestTimer() {
   if (restCounter === 0) {
+    // Rest message updates when the restCounter reaches 0
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest. Please take a 5 minutes break";
     
@@ -238,7 +239,7 @@ function startRestTimer() {
 
     setTimeout(() => {
       // Reset restCounter to the initial value
-      restCounter = 20000 * 60;
+      restCounter = 3000 * 60;
       restMessage.innerText = `Break time in 30 minutes`;
     }, 5000 * 60);
 
@@ -250,19 +251,20 @@ function startRestTimer() {
   }
   
   restCounter -= ten;
+  updateRestMessage(restCounter); // Call the function to update the rest message
 }
 
-
-function updateRestMessage() {
-  if (restCounter === 0) {
+function updateRestMessage(counter) {
+  if (counter === 0) {
     restMessage.style.display = "block";
     restMessage.textContent = "Time to Rest!";
     restCounter = 30 * 60;
-  } else if (restCounter <= restInterval) {
+  } else if (counter <= restInterval) {
     restMessage.style.display = "block";
-    restMessage.innerText = `Rest in ${restTime.toFixed(2)} minutes`;
+    restMessage.innerText = `Rest in ${(counter / 60000).toFixed(2)} minutes`;
   }
 }
+
 
 function capitalizeFirstLetter(text) {
   // Split the string into words
