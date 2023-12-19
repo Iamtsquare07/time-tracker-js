@@ -228,13 +228,13 @@ function startRestTimer() {
     // Rest message updates when the restCounter reaches 0
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest. Please take a 5 minutes break";
-    
+
     setTimeout(() => {
-      restMessage.textContent = "Resting time remain 2 minutes";
+      restMessage.textContent = "Resting time remaining: 2 minutes";
     }, 3000 * 60);
 
     setTimeout(() => {
-      restMessage.textContent = "Your are now refreshed.";
+      restMessage.textContent = "You are now refreshed.";
     }, 4000 * 60);
 
     setTimeout(() => {
@@ -244,25 +244,13 @@ function startRestTimer() {
     }, 5000 * 60);
 
     return;
-  } else if (restCounter === ten) {
-    restMessage.innerText = `Break time is in 10 minutes`;
-  } else if (restCounter === twenty) {
-    restMessage.innerText = `Break time is in 20 minutes`;
+  } else if (restCounter <= ten) {
+    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
+  } else if (restCounter <= twenty) {
+    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
   }
-  
-  restCounter -= ten;
-  updateRestMessage(restCounter); 
-}
 
-function updateRestMessage(counter) {
-  if (counter === 0) {
-    restMessage.style.display = "block";
-    restMessage.textContent = "Time to Rest!";
-    restCounter = 30 * 60;
-  } else if (counter <= restInterval) {
-    restMessage.style.display = "block";
-    restMessage.innerText = `Rest in ${(counter / 60000).toFixed(2)} minutes`;
-  }
+  restCounter -= ten;
 }
 
 
