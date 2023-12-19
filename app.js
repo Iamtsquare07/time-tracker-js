@@ -251,7 +251,7 @@ function startRestTimer() {
   }
   
   restCounter -= ten;
-  updateRestMessage(restCounter); // Call the function to update the rest message
+  updateRestMessage(restCounter); 
 }
 
 function updateRestMessage(counter) {
