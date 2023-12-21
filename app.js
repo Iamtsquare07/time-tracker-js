@@ -88,7 +88,6 @@ if (lastAutoSave) {
   localStorage.removeItem("lastAutoSave");
 }
 
-
 task.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     startTracking();
@@ -225,7 +224,7 @@ function clearLogs() {
 
 function startRestTimer() {
   restCounter -= ten;
-  
+
   if (restCounter === 0) {
     // Rest message updates when the restCounter reaches 0
     restMessage.style.display = "block";
@@ -252,7 +251,6 @@ function startRestTimer() {
     restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
   }
 }
-
 
 function capitalizeFirstLetter(text) {
   // Split the string into words
