@@ -224,6 +224,8 @@ function clearLogs() {
 }
 
 function startRestTimer() {
+  restCounter -= ten;
+  
   if (restCounter === 0) {
     // Rest message updates when the restCounter reaches 0
     restMessage.style.display = "block";
@@ -249,8 +251,6 @@ function startRestTimer() {
   } else if (restCounter <= twenty) {
     restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
   }
-
-  restCounter -= ten;
 }
 
 
