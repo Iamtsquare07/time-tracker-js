@@ -226,7 +226,6 @@ function startRestTimer() {
   restCounter -= ten;
 
   if (restCounter === 0) {
-    // Rest message updates when the restCounter reaches 0
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest. Please take a 5 minutes break";
 
@@ -240,7 +239,7 @@ function startRestTimer() {
 
     setTimeout(() => {
       // Reset restCounter to the initial value
-      restCounter = 3000 * 60;
+      restCounter = 30000 * 60;
       restMessage.innerText = `Break time in 30 minutes`;
     }, 5000 * 60);
 
